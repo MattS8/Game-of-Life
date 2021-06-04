@@ -13,12 +13,13 @@ namespace Game_of_Life
 
     public partial class MainWindow : Form
     {
-        const int FastestSpeedInterval = 50;
+        const int FastestSpeedInterval = 15;
         const int SlowestSpeedInterval = 1000;
         const int Interval = 50;
 
         // The universe array
         bool[,] universe = new bool[30, 30];
+        bool[,] nextGen = new bool[30, 30];
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -53,6 +54,68 @@ namespace Game_of_Life
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+
+            // Copy universe into nextGen
+            nextGen = universe.Clone() as bool[,];
+
+            // Loop through each cell an determine if it is alive or dead
+            int numNeighbors = 0;
+            int xLen = universe.GetLength(0);
+            int yLen = universe.GetLength(1);
+            for (int x = 0; x < xLen; ++x)
+            {
+                for (int y = 0; y < yLen; ++y)
+                {
+                    numNeighbors = 0;
+                    if (x > 0)
+                    {
+                        // Left neighor
+                        numNeighbors += universe[x - 1, y] ? 1 : 0;
+
+                        // Top left neighbor
+                        if (y > 0)
+                            numNeighbors += universe[x - 1, y - 1] ? 1 : 0;
+
+                        // Bottom left neighbor
+                        if (y < yLen - 1)
+                            numNeighbors += universe[x - 1, y + 1] ? 1 : 0;
+                    }
+
+                    if (x < xLen-1)
+                    {
+                        // Right neighbor
+                        numNeighbors += universe[x + 1, y] ? 1 : 0;
+
+                        // Top right neighbor
+                        if (y > 0)
+                            numNeighbors += universe[x + 1, y - 1] ? 1 : 0;
+
+                        // Bottom right neighbor
+                        if (y < yLen - 1)
+                            numNeighbors += universe[x + 1, y + 1] ? 1 : 0;
+                    }
+                        
+                    // Top neighbor
+                    if (y > 0)
+                        numNeighbors += universe[x, y - 1] ? 1 : 0;
+
+                    // Bottom neighbor
+                    if (y < yLen - 1)
+                        numNeighbors += universe[x, y + 1] ? 1 : 0;
+
+                    if (universe[x, y])
+                        nextGen[x, y] = numNeighbors == 2 || numNeighbors == 3;
+                    else
+                        nextGen[x, y] = numNeighbors == 3;
+                }
+            }
+
+            universe = nextGen;
+
+            //GC.Collect(0);
+
+            // Update the panel to show new generation
+            graphicsPanel1.Invalidate();
         }
 
         // The event called by the timer every Interval milliseconds.
@@ -148,21 +211,6 @@ namespace Game_of_Life
 
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Iterate through the universe in the y, top to bottom
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    universe[x, y] = false;
-                }
-            }
-
-            graphicsPanel1.Invalidate();
-        }
-
         private void playPauseButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = !timer.Enabled;
@@ -180,6 +228,29 @@ namespace Game_of_Life
             if (timerInterval + Interval <= SlowestSpeedInterval)
                 timerInterval += Interval;
             timer.Interval = timerInterval;
+        }
+
+        private void newUniverse_Click(object sender, EventArgs e)
+        {
+            // Stop simulation
+            timer.Enabled = false;
+
+            // Clear panel - iterate through the universe in the y, top to bottom
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    universe[x, y] = false;
+                }
+            }
+            graphicsPanel1.Invalidate();
+
+            // Reset generations
+            generations = 0;
+
+            // Update status strip generations
+            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
         }
     }
 }
