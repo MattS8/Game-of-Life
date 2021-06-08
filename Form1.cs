@@ -10,17 +10,8 @@ using System.Windows.Forms;
 
 namespace Game_of_Life
 {
-
     public partial class MainWindow : Form
     {
-        const int FastestSpeedInterval = 15;
-        const int SlowestSpeedInterval = 1000;
-        const int Interval = 50;
-
-        // The universe array
-        bool[,] universe = new bool[30, 30];
-        bool[,] nextGen = new bool[30, 30];
-
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
@@ -28,89 +19,33 @@ namespace Game_of_Life
         // The Timer class
         Timer timer = new Timer();
 
-        // Generation count
-        int generations = 0;
-
         // Timer invertval
-        int timerInterval = 100;
+        float timerMultiplier = 1;
+
+        // Universe instance
+        UniverseSystem universe = new UniverseSystem();
 
         public MainWindow()
         {
             InitializeComponent();
 
             // Setup the timer
-            timer.Interval = timerInterval; // milliseconds
+            timer.Interval = SpeedSystem.GetSpeed(timerMultiplier); // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
+
+            // Setup Universe Menu Toolstrip
+            uiUniverseType.SelectedIndex = universe.universeType == UniverseType.Finite ? 0 : 1;
         }
 
         // Calculate the next generation of cells
         private void NextGeneration()
         {
-
-
-            // Increment generation count
-            generations++;
+            // Get next generation
+            universe.NextGeneration();
 
             // Update status strip generations
-            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
-
-            // Copy universe into nextGen
-            nextGen = universe.Clone() as bool[,];
-
-            // Loop through each cell an determine if it is alive or dead
-            int numNeighbors = 0;
-            int xLen = universe.GetLength(0);
-            int yLen = universe.GetLength(1);
-            for (int x = 0; x < xLen; ++x)
-            {
-                for (int y = 0; y < yLen; ++y)
-                {
-                    numNeighbors = 0;
-                    if (x > 0)
-                    {
-                        // Left neighor
-                        numNeighbors += universe[x - 1, y] ? 1 : 0;
-
-                        // Top left neighbor
-                        if (y > 0)
-                            numNeighbors += universe[x - 1, y - 1] ? 1 : 0;
-
-                        // Bottom left neighbor
-                        if (y < yLen - 1)
-                            numNeighbors += universe[x - 1, y + 1] ? 1 : 0;
-                    }
-
-                    if (x < xLen-1)
-                    {
-                        // Right neighbor
-                        numNeighbors += universe[x + 1, y] ? 1 : 0;
-
-                        // Top right neighbor
-                        if (y > 0)
-                            numNeighbors += universe[x + 1, y - 1] ? 1 : 0;
-
-                        // Bottom right neighbor
-                        if (y < yLen - 1)
-                            numNeighbors += universe[x + 1, y + 1] ? 1 : 0;
-                    }
-                        
-                    // Top neighbor
-                    if (y > 0)
-                        numNeighbors += universe[x, y - 1] ? 1 : 0;
-
-                    // Bottom neighbor
-                    if (y < yLen - 1)
-                        numNeighbors += universe[x, y + 1] ? 1 : 0;
-
-                    if (universe[x, y])
-                        nextGen[x, y] = numNeighbors == 2 || numNeighbors == 3;
-                    else
-                        nextGen[x, y] = numNeighbors == 3;
-                }
-            }
-
-            universe = nextGen;
+            toolStripStatusLabelGenerations.Text = "Generations = " + universe.generations.ToString();
 
             //GC.Collect(0);
 
@@ -214,43 +149,51 @@ namespace Game_of_Life
         private void playPauseButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = !timer.Enabled;
+            playPauseButton.Image = !timer.Enabled ? Properties.Resources.outline_play_arrow_black_24dp : Properties.Resources.aPauseIcon;
         }
 
         private void speedUpButton_Click(object sender, EventArgs e)
         {
-            if (timerInterval - Interval >= FastestSpeedInterval)
-                timerInterval -= Interval;
-            timer.Interval = timerInterval;
+            timerMultiplier = SpeedSystem.IncreaseSpeed(timerMultiplier);
+            System.Diagnostics.Debug.WriteLine("Speed: " + timerMultiplier);
+            speedMultiplier.Text = SpeedSystem.GetMultiplierString(timerMultiplier);
+            timer.Interval = SpeedSystem.GetSpeed(timerMultiplier); // milliseconds
         }
 
         private void slowDownButton_Click(object sender, EventArgs e)
         {
-            if (timerInterval + Interval <= SlowestSpeedInterval)
-                timerInterval += Interval;
-            timer.Interval = timerInterval;
+            timerMultiplier = SpeedSystem.DecreaseSpeed(timerMultiplier);
+            System.Diagnostics.Debug.WriteLine("Speed: " + timerMultiplier);
+            speedMultiplier.Text = SpeedSystem.GetMultiplierString(timerMultiplier);
+            timer.Interval = SpeedSystem.GetSpeed(timerMultiplier); // milliseconds
         }
 
         private void newUniverse_Click(object sender, EventArgs e)
         {
             // Stop simulation
             timer.Enabled = false;
+            playPauseButton.Image = Properties.Resources.aPauseIcon;
 
-            // Clear panel - iterate through the universe in the y, top to bottom
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    universe[x, y] = false;
-                }
-            }
+            // Reset the universe
+            universe.Reset();
+
             graphicsPanel1.Invalidate();
 
-            // Reset generations
-            generations = 0;
-
+            
             // Update status strip generations
-            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            toolStripStatusLabelGenerations.Text = "Generations = " + universe.generations.ToString();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void uiUniverseType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            universe.universeType = uiUniverseType.SelectedIndex == 0 ? UniverseType.Finite : UniverseType.Infinite;
+
+            System.Diagnostics.Debug.WriteLine("Universe Type: " + (universe.universeType == UniverseType.Finite ? "FINITE" : "INIFITE"));
         }
     }
 }

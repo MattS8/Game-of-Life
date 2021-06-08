@@ -63,6 +63,66 @@ namespace Game_of_Life.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap aFastForward {
+            get {
+                object obj = ResourceManager.GetObject("aFastForward", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap aNext {
+            get {
+                object obj = ResourceManager.GetObject("aNext", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap aPause {
+            get {
+                object obj = ResourceManager.GetObject("aPause", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap aPauseIcon {
+            get {
+                object obj = ResourceManager.GetObject("aPauseIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap aPlay {
+            get {
+                object obj = ResourceManager.GetObject("aPlay", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap aRewind {
+            get {
+                object obj = ResourceManager.GetObject("aRewind", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap fastForward {
             get {
                 object obj = ResourceManager.GetObject("fastForward", resourceCulture);
@@ -76,6 +136,16 @@ namespace Game_of_Life.Properties {
         internal static System.Drawing.Bitmap iconfinder_play_pause_music_player_2203516 {
             get {
                 object obj = ResourceManager.GetObject("iconfinder_play-pause-music-player_2203516", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap outline_play_arrow_black_24dp {
+            get {
+                object obj = ResourceManager.GetObject("outline_play_arrow_black_24dp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
