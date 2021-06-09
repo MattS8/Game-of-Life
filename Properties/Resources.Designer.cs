@@ -63,6 +63,16 @@ namespace Game_of_Life.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap aCheckMark {
+            get {
+                object obj = ResourceManager.GetObject("aCheckMark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap aFastForward {
             get {
                 object obj = ResourceManager.GetObject("aFastForward", resourceCulture);

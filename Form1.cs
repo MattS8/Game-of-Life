@@ -35,7 +35,8 @@ namespace Game_of_Life
             timer.Enabled = false; // start timer running
 
             // Setup Universe Menu Toolstrip
-            uiUniverseType.SelectedIndex = universe.universeType == UniverseType.Finite ? 0 : 1;
+            uiTypeFininite.Image = universe.universeType == UniverseType.Finite ? Properties.Resources.aCheckMark : null;
+            uiTypeInfinite.Image = universe.universeType == UniverseType.Infinite ? Properties.Resources.aCheckMark : null;
         }
 
         // Calculate the next generation of cells
@@ -189,11 +190,23 @@ namespace Game_of_Life
             Application.Exit();
         }
 
-        private void uiUniverseType_SelectedIndexChanged(object sender, EventArgs e)
+        private void uiNextFrame_Click(object sender, EventArgs e)
         {
-            universe.universeType = uiUniverseType.SelectedIndex == 0 ? UniverseType.Finite : UniverseType.Infinite;
+            NextGeneration();
+        }
 
-            System.Diagnostics.Debug.WriteLine("Universe Type: " + (universe.universeType == UniverseType.Finite ? "FINITE" : "INIFITE"));
+        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            universe.universeType = UniverseType.Finite;
+            uiTypeFininite.Image = Properties.Resources.aCheckMark;
+            uiTypeInfinite.Image = null;
+        }
+
+        private void infiniteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            universe.universeType = UniverseType.Infinite;
+            uiTypeFininite.Image = null;
+            uiTypeInfinite.Image = Properties.Resources.aCheckMark;
         }
     }
 }
