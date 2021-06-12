@@ -37,6 +37,8 @@ namespace Game_of_Life
             // Setup Universe Menu Toolstrip
             uiTypeFininite.Image = universe.universeType == UniverseType.Finite ? Properties.Resources.aCheckMark : null;
             uiTypeInfinite.Image = universe.universeType == UniverseType.Infinite ? Properties.Resources.aCheckMark : null;
+            uiXSize.Text = universe.GetLength(0).ToString();
+            uiYSize.Text = universe.GetLength(1).ToString();
         }
 
         // Calculate the next generation of cells
@@ -52,6 +54,11 @@ namespace Game_of_Life
 
             // Update the panel to show new generation
             graphicsPanel1.Invalidate();
+        }
+
+        private void NewUniverse()
+        {
+            //universe = new UniverseSystem(uiXSize.get)
         }
 
         // The event called by the timer every Interval milliseconds.
@@ -111,7 +118,10 @@ namespace Game_of_Life
                 // Calculate the width and height of each cell in pixels
                 int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
                 int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
-
+                if (cellWidth == 0)
+                    cellWidth = 1;
+                if (cellHeight == 0)
+                    cellHeight = 1;
 
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
@@ -207,6 +217,58 @@ namespace Game_of_Life
             universe.universeType = UniverseType.Infinite;
             uiTypeFininite.Image = null;
             uiTypeInfinite.Image = Properties.Resources.aCheckMark;
+        }
+
+        private void size_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // Ensure the modified size is a proper number
+                if (!validateSize(((System.Windows.Forms.ToolStripTextBox)sender).Tag.Equals("uiWidth") ? uiXSize.Text : uiYSize.Text))
+                    return;
+
+                var item = (ToolStripItem)sender;
+                var owner = (ToolStripDropDown)(item.Owner);
+                owner.Close();
+                e.Handled = true;
+
+                universe.Resize(int.Parse(uiXSize.Text), int.Parse(uiYSize.Text));
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void heightToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            uiYSize.Text = universe.GetLength(1).ToString();
+        }
+
+        private void widthToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            uiXSize.Text = universe.GetLength(0).ToString();
+        }
+
+        private void uiUniverseRandomize_Click(object sender, EventArgs e)
+        {
+            universe.Randomize();
+            graphicsPanel1.Invalidate();
+        }
+
+        private bool validateSize(String sizeStr)
+        {
+            foreach (char c in sizeStr)
+            {
+                if (!char.IsControl(c) && !char.IsDigit(c))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

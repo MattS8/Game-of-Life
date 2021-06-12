@@ -10,17 +10,45 @@ namespace Game_of_Life
 
     class UniverseSystem
     {
+        public const int MaxWidth = 999;
+        public const int MaxHeight = 999;
+
         bool[,] universe;
         bool[,] nextGen;
         public UniverseType universeType;
         public int generations;
 
-        public UniverseSystem(int width = 30, int height = 30, UniverseType type = UniverseType.Finite, int initialGenerations = 0)
+        public UniverseSystem(int width = 30, int height = 30, UniverseType type = UniverseType.Infinite, int initialGenerations = 0)
         {
             universe = new bool[width, height];
             nextGen = new bool[width, height];
             universeType = type;
             generations = initialGenerations;
+        }
+
+        /// <summary>
+        /// Resizes the universe, adding dead cells if the new size is larger, and trimming if smaller.
+        /// </summary>
+        /// <param name="newX"></param>
+        /// <param name="newY"></param>
+        public void Resize(int newX, int newY)
+        {
+            if (newX > MaxWidth)
+                newX = MaxWidth;
+            if (newY > MaxHeight)
+                newY = MaxHeight;
+            if (newX < 1)
+                newX = 1;
+            if (newY < 1)
+                newY = 1;
+
+            bool[,] temp = new bool[newX, newY];
+            for (int x = 0; x < newX && x < GetLength(0); ++x)
+                for (int y = 0; y < newY && y < GetLength(1); ++y)
+                    temp[x, y] = universe[x, y];
+
+            universe = temp;
+            nextGen = new bool[newX, newY];
         }
 
         /// <summary>
@@ -158,6 +186,13 @@ namespace Game_of_Life
             set { universe[x, y] = value; }
         }
 
+        internal void Randomize()
+        {
+            var rand = new Random();
+            for (int x = 0; x < GetLength(0); ++x)
+                for (int y = 0; y < GetLength(1); ++y)
+                    universe[x, y] = rand.Next(3) == 0;
+        }
     }
 
 }
