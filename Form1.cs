@@ -270,5 +270,15 @@ namespace Game_of_Life
 
             return true;
         }
+
+        private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form2 propertiesForm = new Form2();
+
+            if (DialogResult.OK == propertiesForm.ShowDialog())
+            {
+                // todo
+            }
+        }
     }
 }
