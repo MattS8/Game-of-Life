@@ -44,5 +44,41 @@
     <Setting Name="RandDead" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">67</Value>
     </Setting>
+    <Setting Name="ViewNeighborCount" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ViewHeadsUpDisplay" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Color1Neighbor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Red</Value>
+    </Setting>
+    <Setting Name="Color2Neighbor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">LightGreen</Value>
+    </Setting>
+    <Setting Name="Color3Neighbor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">LightGreen</Value>
+    </Setting>
+    <Setting Name="Color4Neighbor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Firebrick</Value>
+    </Setting>
+    <Setting Name="Color5Neighbor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">DarkRed</Value>
+    </Setting>
+    <Setting Name="Color6Neighbor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Maroon</Value>
+    </Setting>
+    <Setting Name="Color7Neighbor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Maroon</Value>
+    </Setting>
+    <Setting Name="Color8Neighbor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Red</Value>
+    </Setting>
+    <Setting Name="FontNeighbors" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">Microsoft Sans Serif, 8.25pt</Value>
+    </Setting>
+    <Setting Name="ColorBackColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Control</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

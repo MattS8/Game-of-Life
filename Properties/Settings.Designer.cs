@@ -190,5 +190,149 @@ namespace Game_of_Life.Properties {
                 this["RandDead"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ViewNeighborCount {
+            get {
+                return ((bool)(this["ViewNeighborCount"]));
+            }
+            set {
+                this["ViewNeighborCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ViewHeadsUpDisplay {
+            get {
+                return ((bool)(this["ViewHeadsUpDisplay"]));
+            }
+            set {
+                this["ViewHeadsUpDisplay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public global::System.Drawing.Color Color1Neighbor {
+            get {
+                return ((global::System.Drawing.Color)(this["Color1Neighbor"]));
+            }
+            set {
+                this["Color1Neighbor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightGreen")]
+        public global::System.Drawing.Color Color2Neighbor {
+            get {
+                return ((global::System.Drawing.Color)(this["Color2Neighbor"]));
+            }
+            set {
+                this["Color2Neighbor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightGreen")]
+        public global::System.Drawing.Color Color3Neighbor {
+            get {
+                return ((global::System.Drawing.Color)(this["Color3Neighbor"]));
+            }
+            set {
+                this["Color3Neighbor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Firebrick")]
+        public global::System.Drawing.Color Color4Neighbor {
+            get {
+                return ((global::System.Drawing.Color)(this["Color4Neighbor"]));
+            }
+            set {
+                this["Color4Neighbor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DarkRed")]
+        public global::System.Drawing.Color Color5Neighbor {
+            get {
+                return ((global::System.Drawing.Color)(this["Color5Neighbor"]));
+            }
+            set {
+                this["Color5Neighbor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Maroon")]
+        public global::System.Drawing.Color Color6Neighbor {
+            get {
+                return ((global::System.Drawing.Color)(this["Color6Neighbor"]));
+            }
+            set {
+                this["Color6Neighbor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Maroon")]
+        public global::System.Drawing.Color Color7Neighbor {
+            get {
+                return ((global::System.Drawing.Color)(this["Color7Neighbor"]));
+            }
+            set {
+                this["Color7Neighbor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public global::System.Drawing.Color Color8Neighbor {
+            get {
+                return ((global::System.Drawing.Color)(this["Color8Neighbor"]));
+            }
+            set {
+                this["Color8Neighbor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif, 8.25pt")]
+        public global::System.Drawing.Font FontNeighbors {
+            get {
+                return ((global::System.Drawing.Font)(this["FontNeighbors"]));
+            }
+            set {
+                this["FontNeighbors"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Control")]
+        public global::System.Drawing.Color ColorBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorBackColor"]));
+            }
+            set {
+                this["ColorBackColor"] = value;
+            }
+        }
     }
 }

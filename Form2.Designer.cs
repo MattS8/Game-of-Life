@@ -29,9 +29,9 @@ namespace Game_of_Life
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Panel", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Panel Defaults", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Window", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Application", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Miscellaneous", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Colors");
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Grid");
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Fonts");
@@ -47,11 +47,11 @@ namespace Game_of_Life
             // lwProperties
             // 
             this.lwProperties.FullRowSelect = true;
-            listViewGroup1.Header = "Panel";
+            listViewGroup1.Header = "Panel Defaults";
             listViewGroup1.Name = "grpPanel";
             listViewGroup2.Header = "Window";
             listViewGroup2.Name = "grpWindow";
-            listViewGroup3.Header = "Application";
+            listViewGroup3.Header = "Miscellaneous";
             listViewGroup3.Name = "grpApplication";
             this.lwProperties.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,

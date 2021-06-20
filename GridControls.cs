@@ -66,6 +66,8 @@ namespace Game_of_Life
             txtSegThick.Text = ((int)Properties.Settings.Default["GridSegmentThickness"]).ToString();
             cbDisplayGrid.Checked = (bool)Properties.Settings.Default["EnableGridLines"];
             cbDisplaySegmentGridlines.Checked = (bool)Properties.Settings.Default["EnableSegmentLines"];
+            cbDisplayNeighborCount.Checked = (bool)Properties.Settings.Default["ViewNeighborCount"];
+            cbHeadsUpDisplay.Checked = (bool)Properties.Settings.Default["ViewHeadsUpDisplay"];
             toggleGridOptions();
             toggleSegmentOptions();
         }
@@ -77,6 +79,8 @@ namespace Game_of_Life
             Properties.Settings.Default["GridSegmentThickness"] = int.Parse(txtSegThick.Text);
             Properties.Settings.Default["EnableGridLines"] = cbDisplayGrid.Checked;
             Properties.Settings.Default["EnableSegmentLines"] = cbDisplaySegmentGridlines.Checked;
+            Properties.Settings.Default["ViewNeighborCount"] = cbDisplayNeighborCount.Checked;
+            Properties.Settings.Default["ViewHeadsUpDisplay"] = cbHeadsUpDisplay.Checked;
         }
 
         private void txtSegThick_KeyPress(object sender, KeyPressEventArgs e)

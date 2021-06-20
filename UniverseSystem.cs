@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game_of_Life
 {
-    enum UniverseType { Finite, Infinite }
+    enum UniverseType { Finite, Torodial }
 
     class UniverseSystem
     {
@@ -17,13 +17,24 @@ namespace Game_of_Life
         bool[,] nextGen;
         public UniverseType universeType;
         public int generations;
+        public string name;
 
-        public UniverseSystem(int width = 30, int height = 30, UniverseType type = UniverseType.Infinite, int initialGenerations = 0)
+        private int numLivingCells;
+        private uint numCellsBorn;
+        private uint numCellsDied;
+        
+        Random rand;
+
+        public UniverseSystem(int width = 30, int height = 30, UniverseType type = UniverseType.Torodial, int initialGenerations = 0)
         {
             universe = new bool[width, height];
             nextGen = new bool[width, height];
             universeType = type;
             generations = initialGenerations;
+            numLivingCells = 0;
+            numCellsBorn = 0;
+            numCellsDied = 0;
+            InitializeRandomization();
         }
 
         /// <summary>
@@ -42,10 +53,15 @@ namespace Game_of_Life
             if (newY < 1)
                 newY = 1;
 
+            numLivingCells = 0;
             bool[,] temp = new bool[newX, newY];
             for (int x = 0; x < newX && x < GetLength(0); ++x)
                 for (int y = 0; y < newY && y < GetLength(1); ++y)
+                {
                     temp[x, y] = universe[x, y];
+                    numLivingCells += universe[x, y] ? 1 : 0;
+                }
+                    
 
             universe = temp;
             nextGen = new bool[newX, newY];
@@ -66,16 +82,37 @@ namespace Game_of_Life
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
             int numNeighbors;
-            for (int x = 0; x < xLen; ++x)
+            for (int y = 0; y < yLen; ++y)
             {
-                for (int y = 0; y < yLen; ++y)
+                for (int x = 0; x < xLen; ++x)
                 {
                     numNeighbors = GetNumNeighbors(x, y);
 
                     if (universe[x, y])
-                        nextGen[x, y] = numNeighbors == 2 || numNeighbors == 3;
+                    {
+                        if (numNeighbors == 2 || numNeighbors == 3)
+                        {
+                            nextGen[x, y] = true;
+                        } 
+                        else
+                        {
+                            nextGen[x, y] = false;
+                            --numLivingCells;
+                        }
+                        
+                    }
                     else
-                        nextGen[x, y] = numNeighbors == 3;
+                    {
+                        if (numNeighbors == 3)
+                        {
+                            nextGen[x, y] = true;
+                            ++numLivingCells;
+                        }
+                        else
+                        {
+                            nextGen[x, y] = false;
+                        }
+                    }   
                 }
             }
 
@@ -97,6 +134,12 @@ namespace Game_of_Life
             }
 
             generations = 0;
+            numLivingCells = 0;
+        }
+
+        public int NumberOfLivingCells()
+        {
+            return numLivingCells;
         }
 
         private int GetNumNeighborsFinite(int x, int y)
@@ -131,7 +174,7 @@ namespace Game_of_Life
             return numNeighbors;
         }
 
-        private int GetNumNeighborsInfinite(int x, int y)
+        private int GetNumNeighborsTorodial(int x, int y)
         {
             int numNeighbors = 0;
             int xLen = GetLength(0);
@@ -167,7 +210,7 @@ namespace Game_of_Life
         {
             return universeType == UniverseType.Finite 
                 ? GetNumNeighborsFinite(x, y) 
-                : GetNumNeighborsInfinite(x, y);
+                : GetNumNeighborsTorodial(x, y);
         }
 
         /// <summary>
@@ -183,15 +226,31 @@ namespace Game_of_Life
         public bool this[int x, int y]
         { 
             get { return universe[x, y]; }
-            set { universe[x, y] = value; }
+            set 
+            {
+                if (universe[x, y] && !value)
+                    --numLivingCells;
+                else if (!universe[x, y] && value)
+                    ++numLivingCells;
+                universe[x, y] = value; 
+            }
+        }
+
+        public void InitializeRandomization()
+        {
+            rand = Properties.Settings.Default.UseSeed ? new Random((int)Properties.Settings.Default.RandSeed) : new Random(new System.DateTime().Millisecond);
         }
 
         internal void Randomize()
         {
-            var rand = new Random();
+            numLivingCells = 0;
             for (int x = 0; x < GetLength(0); ++x)
                 for (int y = 0; y < GetLength(1); ++y)
-                    universe[x, y] = rand.Next(3) == 0;
+                {
+                    int r = rand.Next(100);
+                    universe[x,y] = r < (Properties.Settings.Default.RandAlive > Properties.Settings.Default.RandDead ? Properties.Settings.Default.RandDead : Properties.Settings.Default.RandAlive);
+                    numLivingCells += universe[x, y] ? 1 : 0;
+                }
         }
     }
 

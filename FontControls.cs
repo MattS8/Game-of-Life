@@ -10,11 +10,12 @@ using System.Windows.Forms;
 
 namespace Game_of_Life
 {
-    public partial class PanelFontsControls : UserControl
+    public partial class FontControls : UserControl
     {
-        public PanelFontsControls()
+        public FontControls()
         {
             InitializeComponent();
+            restoreDefaults();
         }
 
         private void cmbNeighborFont_Click(object sender, EventArgs e)
@@ -41,11 +42,6 @@ namespace Game_of_Life
         {
             cmbNeighborFont.Font = (Font)Properties.Settings.Default["FontNeighbors"];
             cmbNeighborFont.Text = cmbNeighborFont.Font.Name;
-        }
-
-        private void cmbNeighborFont_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

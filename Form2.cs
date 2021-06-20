@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Game_of_Life
@@ -16,11 +9,13 @@ namespace Game_of_Life
         PanelColorsControls panelProperties = new PanelColorsControls();
         GridControls gridControls = new GridControls();
         RandomizationControls randomizationControls = new RandomizationControls();
+        FontControls fontControls = new FontControls();
 
         public Form2()
         {
             InitializeComponent();
             lwProperties.Items[shownIndex].Selected = true;
+            BackColor = Properties.Settings.Default.ColorBackColor;
         }
 
         private void lwProperties_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -45,6 +40,7 @@ namespace Game_of_Life
                     break;
                 case 2:
                     grpProperties.Text = "Fonts";
+                    grpProperties.Controls.Add(fontControls);
                     break;
                 case 3:
                     grpProperties.Text = "Window Colors";
@@ -61,6 +57,7 @@ namespace Game_of_Life
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
@@ -69,8 +66,9 @@ namespace Game_of_Life
             panelProperties.applySettings();
             gridControls.applySettings();
             randomizationControls.applySettings();
-
+            fontControls.applySettings();
             Properties.Settings.Default.Save();
+            DialogResult = DialogResult.OK;
             Close();
         }
 
@@ -79,8 +77,11 @@ namespace Game_of_Life
             Properties.Settings.Default.Reset();
             panelProperties.restoreDefaults();
             gridControls.restoreDefaults();
+            fontControls.restoreDefaults();
 
             randomizationControls.restoreDefaults();
         }
+
+        public bool randomizationChanged() { return randomizationControls.randomizationChanged; }
     }
 }

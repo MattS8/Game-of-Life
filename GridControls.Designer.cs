@@ -40,6 +40,8 @@ namespace Game_of_Life
             this.txtSegThick = new System.Windows.Forms.TextBox();
             this.lbSegThickness = new System.Windows.Forms.Label();
             this.lbSegPx = new System.Windows.Forms.Label();
+            this.cbDisplayNeighborCount = new System.Windows.Forms.CheckBox();
+            this.cbHeadsUpDisplay = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lbGridThickness
@@ -151,11 +153,33 @@ namespace Game_of_Life
             this.lbSegPx.TabIndex = 12;
             this.lbSegPx.Text = "px";
             // 
+            // cbDisplayNeighborCount
+            // 
+            this.cbDisplayNeighborCount.AutoSize = true;
+            this.cbDisplayNeighborCount.Location = new System.Drawing.Point(6, 119);
+            this.cbDisplayNeighborCount.Name = "cbDisplayNeighborCount";
+            this.cbDisplayNeighborCount.Size = new System.Drawing.Size(137, 17);
+            this.cbDisplayNeighborCount.TabIndex = 13;
+            this.cbDisplayNeighborCount.Text = "Display Neighbor Count";
+            this.cbDisplayNeighborCount.UseVisualStyleBackColor = true;
+            // 
+            // cbHeadsUpDisplay
+            // 
+            this.cbHeadsUpDisplay.AutoSize = true;
+            this.cbHeadsUpDisplay.Location = new System.Drawing.Point(166, 119);
+            this.cbHeadsUpDisplay.Name = "cbHeadsUpDisplay";
+            this.cbHeadsUpDisplay.Size = new System.Drawing.Size(147, 17);
+            this.cbHeadsUpDisplay.TabIndex = 14;
+            this.cbHeadsUpDisplay.Text = "Enable Heads-Up Display";
+            this.cbHeadsUpDisplay.UseVisualStyleBackColor = true;
+            // 
             // GridControls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
+            this.Controls.Add(this.cbHeadsUpDisplay);
+            this.Controls.Add(this.cbDisplayNeighborCount);
             this.Controls.Add(this.lbSegPx);
             this.Controls.Add(this.txtSegThick);
             this.Controls.Add(this.lbSegThickness);
@@ -187,5 +211,7 @@ namespace Game_of_Life
         private System.Windows.Forms.TextBox txtSegThick;
         private System.Windows.Forms.Label lbSegThickness;
         private System.Windows.Forms.Label lbSegPx;
+        private System.Windows.Forms.CheckBox cbDisplayNeighborCount;
+        private System.Windows.Forms.CheckBox cbHeadsUpDisplay;
     }
 }

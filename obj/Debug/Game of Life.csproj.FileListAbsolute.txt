@@ -12,3 +12,6 @@ C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\
 C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.GridControls.resources
 C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.PanelColorsControls.resources
 C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.RandomizationControls.resources
+C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.FontControls.resources
+C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.PanelFontsControls.resources
+C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.UniverseNameForm.resources

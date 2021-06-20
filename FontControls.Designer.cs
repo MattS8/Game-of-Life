@@ -1,7 +1,7 @@
 ﻿
 namespace Game_of_Life
 {
-    partial class PanelFontsControls
+    partial class FontControls
     {
         /// <summary> 
         /// Required designer variable.
@@ -35,20 +35,18 @@ namespace Game_of_Life
             // cmbNeighborFont
             // 
             this.cmbNeighborFont.FormattingEnabled = true;
-            this.cmbNeighborFont.Location = new System.Drawing.Point(4, 4);
+            this.cmbNeighborFont.Location = new System.Drawing.Point(3, 3);
             this.cmbNeighborFont.Name = "cmbNeighborFont";
             this.cmbNeighborFont.Size = new System.Drawing.Size(121, 21);
             this.cmbNeighborFont.TabIndex = 0;
-            this.cmbNeighborFont.SelectedIndexChanged += new System.EventHandler(this.cmbNeighborFont_SelectedIndexChanged);
             this.cmbNeighborFont.Click += new System.EventHandler(this.cmbNeighborFont_Click);
             // 
-            // PanelFontsControls
+            // FontControls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScrollMargin = new System.Drawing.Size(20, 20);
             this.Controls.Add(this.cmbNeighborFont);
-            this.Name = "PanelFontsControls";
+            this.Name = "FontControls";
             this.ResumeLayout(false);
 
         }

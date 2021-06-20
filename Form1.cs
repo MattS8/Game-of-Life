@@ -12,9 +12,6 @@ namespace Game_of_Life
 {
     public partial class MainWindow : Form
     {
-        // Drawing colors
-        Color gridColor = Color.Black;
-        Color cellColor = Color.Gray;
 
         // The Timer class
         Timer timer = new Timer();
@@ -25,6 +22,9 @@ namespace Game_of_Life
         // Universe instance
         UniverseSystem universe = new UniverseSystem();
 
+        // Name of Universe Save File
+        String fileNameStr;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,12 +34,13 @@ namespace Game_of_Life
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
 
-            // Setup Universe Menu Toolstrip
-            uiTypeFininite.Image = universe.universeType == UniverseType.Finite ? Properties.Resources.aCheckMark : null;
-            uiTypeInfinite.Image = universe.universeType == UniverseType.Infinite ? Properties.Resources.aCheckMark : null;
-            uiXSize.Text = universe.GetLength(0).ToString();
-            uiYSize.Text = universe.GetLength(1).ToString();
+            setupMenuToolstrip();
         }
+
+        /* ----------- 
+         * MAIN LOGIC 
+         * ----------- 
+         */
 
         // Calculate the next generation of cells
         private void NextGeneration()
@@ -50,15 +51,13 @@ namespace Game_of_Life
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + universe.generations.ToString();
 
+            // Update status strip living cells
+            toolStripStatusLabelLivingCells.Text = "Living Cells = " + universe.NumberOfLivingCells().ToString();
+
             //GC.Collect(0);
 
             // Update the panel to show new generation
             graphicsPanel1.Invalidate();
-        }
-
-        private void NewUniverse()
-        {
-            //universe = new UniverseSystem(uiXSize.get)
         }
 
         // The event called by the timer every Interval milliseconds.
@@ -67,19 +66,41 @@ namespace Game_of_Life
             NextGeneration();
         }
 
+        /* -------------------------
+         * GRAPHICS PANEL FUNCTIONS 
+         * -------------------------
+         */
+
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
+            graphicsPanel1.BackColor = Properties.Settings.Default.ColorPanelBG;
+
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
-            int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+            float cellWidth = ((float) graphicsPanel1.ClientSize.Width) / universe.GetLength(0);
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
-            int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+            float cellHeight = ((float) graphicsPanel1.ClientSize.Height) / universe.GetLength(1);
 
             // A Pen for drawing the grid lines (color, width)
-            Pen gridPen = new Pen(gridColor, 1);
+            Pen gridPen = new Pen(Properties.Settings.Default.ColorGridLine, Properties.Settings.Default.GridLineThickness);
+            //Pen segPen = new Pen(Properties.Settings.Default.ColorGridSegment, Properties.Settings.Default.GridSegmentThickness);
 
             // A Brush for filling living cells interiors (color)
-            Brush cellBrush = new SolidBrush(cellColor);
+            Brush cellBrush = new SolidBrush(Properties.Settings.Default.ColorCellAlive);
+            Brush cellBrushDead = new SolidBrush(Properties.Settings.Default.ColorCellDead);
+
+            // Neighbor Count Brushes
+            Brush n1Brush = new SolidBrush(Properties.Settings.Default.Color1Neighbor);
+            Brush n2Brush = new SolidBrush(Properties.Settings.Default.Color2Neighbor);
+            Brush n3Brush = new SolidBrush(Properties.Settings.Default.Color3Neighbor);
+            Brush n4Brush = new SolidBrush(Properties.Settings.Default.Color4Neighbor);
+            Brush n5Brush = new SolidBrush(Properties.Settings.Default.Color5Neighbor);
+            Brush n6Brush = new SolidBrush(Properties.Settings.Default.Color6Neighbor);
+            Brush n7Brush = new SolidBrush(Properties.Settings.Default.Color7Neighbor);
+            Brush n8Brush = new SolidBrush(Properties.Settings.Default.Color8Neighbor);
+            StringFormat stringFormat = new StringFormat();
+            stringFormat.Alignment = StringAlignment.Center;
+            stringFormat.LineAlignment = StringAlignment.Center;
 
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
@@ -88,26 +109,46 @@ namespace Game_of_Life
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // A rectangle to represent each cell in pixels
-                    Rectangle cellRect = Rectangle.Empty;
+                    RectangleF cellRect = RectangleF.Empty;
                     cellRect.X = x * cellWidth;
                     cellRect.Y = y * cellHeight;
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
 
-                    // Fill the cell with a brush if alive
-                    if (universe[x, y] == true)
+                    e.Graphics.FillRectangle(universe[x, y] == true ? cellBrush : cellBrushDead, cellRect);
+
+                    if (Properties.Settings.Default.ViewNeighborCount)
                     {
-                        e.Graphics.FillRectangle(cellBrush, cellRect);
+                        int numNeighbors = universe.GetNumNeighbors(x, y);
+                        e.Graphics.DrawString(numNeighbors.ToString(), Properties.Settings.Default.FontNeighbors, numNeighbors == 1
+                            ? n1Brush : numNeighbors == 2
+                            ? n2Brush : numNeighbors == 3
+                            ? n3Brush : numNeighbors == 4
+                            ? n4Brush : numNeighbors == 5
+                            ? n5Brush : numNeighbors == 6
+                            ? n6Brush : numNeighbors == 7
+                            ? n7Brush : n8Brush,
+                            cellRect, stringFormat);
                     }
 
                     // Outline the cell with a pen
-                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    if (Properties.Settings.Default.EnableGridLines)
+                        e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
             }
 
             // Cleaning up pens and brushes
             gridPen.Dispose();
             cellBrush.Dispose();
+            cellBrushDead.Dispose();
+            n1Brush.Dispose();
+            n2Brush.Dispose();
+            n3Brush.Dispose();
+            n4Brush.Dispose();
+            n5Brush.Dispose();
+            n6Brush.Dispose();
+            n7Brush.Dispose();
+            n8Brush.Dispose();
         }
 
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
@@ -116,8 +157,8 @@ namespace Game_of_Life
             if (e.Button == MouseButtons.Left)
             {
                 // Calculate the width and height of each cell in pixels
-                int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
-                int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+                float cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+                float cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
                 if (cellWidth == 0)
                     cellWidth = 1;
                 if (cellHeight == 0)
@@ -125,14 +166,14 @@ namespace Game_of_Life
 
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
-                int x = e.X / cellWidth;
+                int x = e.X / (int)cellWidth;
                 if (x >= universe.GetLength(0))
                 {
                     System.Diagnostics.Debug.WriteLine("X was greater than universe length: " + x);
                     return;
                 }
                 // CELL Y = MOUSE Y / CELL HEIGHT
-                int y = e.Y / cellHeight;
+                int y = e.Y / (int)cellHeight;
                 if (y >= universe.GetLength(1))
                 {
                     System.Diagnostics.Debug.WriteLine("Y was greater than universe length: " + y);
@@ -144,6 +185,9 @@ namespace Game_of_Life
 
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
+
+                // Update status strip living cells
+                toolStripStatusLabelLivingCells.Text = "Living Cells = " + universe.NumberOfLivingCells().ToString();
             }
         }
 
@@ -152,10 +196,10 @@ namespace Game_of_Life
             //System.Diagnostics.Debug.WriteLine("X was greater than universe length: " + x);
         }
 
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-
-        }
+        /* ----------------------------
+         * UNIVERSE TOOSTRIP FUNCTIONS
+         * ----------------------------
+         */
 
         private void playPauseButton_Click(object sender, EventArgs e)
         {
@@ -179,45 +223,15 @@ namespace Game_of_Life
             timer.Interval = SpeedSystem.GetSpeed(timerMultiplier); // milliseconds
         }
 
-        private void newUniverse_Click(object sender, EventArgs e)
-        {
-            // Stop simulation
-            timer.Enabled = false;
-            playPauseButton.Image = Properties.Resources.aPauseIcon;
-
-            // Reset the universe
-            universe.Reset();
-
-            graphicsPanel1.Invalidate();
-
-            
-            // Update status strip generations
-            toolStripStatusLabelGenerations.Text = "Generations = " + universe.generations.ToString();
-        }
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void uiNextFrame_Click(object sender, EventArgs e)
         {
             NextGeneration();
         }
 
-        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            universe.universeType = UniverseType.Finite;
-            uiTypeFininite.Image = Properties.Resources.aCheckMark;
-            uiTypeInfinite.Image = null;
-        }
-
-        private void infiniteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            universe.universeType = UniverseType.Infinite;
-            uiTypeFininite.Image = null;
-            uiTypeInfinite.Image = Properties.Resources.aCheckMark;
-        }
+        /* ----------------------------
+         * UNIVERSE MENU FUNCTIONS
+         * ----------------------------
+         */
 
         private void size_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -256,8 +270,35 @@ namespace Game_of_Life
         {
             universe.Randomize();
             graphicsPanel1.Invalidate();
+
+            // Update status strip living cells
+            toolStripStatusLabelLivingCells.Text = "Living Cells = " + universe.NumberOfLivingCells().ToString();
         }
 
+        private void uiTypeFininite_Click(object sender, EventArgs e)
+        {
+            universe.universeType = UniverseType.Finite;
+            uiTypeFininite.Checked = true;
+            uiTypeInfinite.Checked = false;
+        }
+
+        private void uiTypeInfinite_Click(object sender, EventArgs e)
+        {
+            universe.universeType = UniverseType.Torodial;
+            uiTypeFininite.Checked = false;
+            uiTypeInfinite.Checked = true;
+        }
+
+        private void nameInputToolStripTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                universe.name = nameInputToolStripTextBox1.Text;
+                this.Text = "Game of Life - " + universe.name;
+            }
+        }
+
+        // Helper Functions
         private bool validateSize(String sizeStr)
         {
             foreach (char c in sizeStr)
@@ -271,14 +312,309 @@ namespace Game_of_Life
             return true;
         }
 
+        /* ----------------------------
+         * FILE MENU FUNCTIONS
+         * ----------------------------
+         */
+
+        private void newUniverse_Click(object sender, EventArgs e)
+        {
+            // Clear opened file
+            fileNameStr = "";
+
+            // Stop simulation
+            timer.Enabled = false;
+            playPauseButton.Image = Properties.Resources.aPauseIcon;
+
+            // Reset the universe
+            universe.Reset();
+
+            // Clear the name of the universe
+            universe.name = "";
+
+            // Redraw graphics panel
+            graphicsPanel1.Invalidate();
+
+            // Update window title
+            this.Text = "Game of Life";
+
+            // Update status strip generations
+            toolStripStatusLabelGenerations.Text = "Generations = " + universe.generations.ToString();
+
+            // Update status strip alive cells
+            toolStripStatusLabelLivingCells.Text = "Living Cells = " + universe.NumberOfLivingCells();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form2 propertiesForm = new Form2();
 
             if (DialogResult.OK == propertiesForm.ShowDialog())
             {
-                // todo
+                graphicsPanel1.Invalidate();
+                setupMenuToolstrip();
+                if (propertiesForm.randomizationChanged())
+                    universe.InitializeRandomization();
             }
+        }
+
+        private void saveUniverse_Click(object sender, EventArgs e)
+        {
+            // Prompt user for Universe Name if it doesn't have one
+            if (String.IsNullOrWhiteSpace(universe.name))
+            {
+                UniverseNameForm unf = new UniverseNameForm();
+
+                if (DialogResult.OK == unf.ShowDialog())
+                {
+                    universe.name = unf.FileName;
+                    this.Text = "Game of Life - " + universe.name;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (String.IsNullOrEmpty(fileNameStr))
+                saveUniverseAs_Click(sender, e);
+            else
+                saveUniverse();
+        }
+
+        private void saveUniverseAs_Click(object sender, EventArgs e)
+        {
+            // Pause a running simulation
+            timer.Enabled = false;
+            playPauseButton.Image = !timer.Enabled ? Properties.Resources.outline_play_arrow_black_24dp : Properties.Resources.aPauseIcon;
+
+            // Prompt user for Universe Name if it doesn't have one
+            if (String.IsNullOrWhiteSpace(universe.name))
+            {
+                UniverseNameForm unf = new UniverseNameForm();
+
+                if (DialogResult.OK == unf.ShowDialog())
+                {
+                    universe.name = unf.FileName;
+                    this.Text = "Game of Life - " + universe.name;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "All Files|*.*|Cells|*.cells";
+            sfd.FilterIndex = 2;
+            sfd.DefaultExt = "cells";
+
+            if (DialogResult.OK == sfd.ShowDialog())
+            {
+                fileNameStr = sfd.FileName;
+                saveUniverse();
+            }
+        }
+
+        private void openUniverse_Click(object sender, EventArgs e)
+        {
+            openUniverse();
+        }
+
+        // Helper Functions
+
+        private void saveUniverse()
+        {
+            // Pause a running simulation
+            timer.Enabled = false;
+            playPauseButton.Image = !timer.Enabled ? Properties.Resources.outline_play_arrow_black_24dp : Properties.Resources.aPauseIcon;
+
+            System.IO.StreamWriter writer;
+            try
+            {
+                 writer = new System.IO.StreamWriter(fileNameStr);
+            } catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.ToString());
+                MessageBox.Show("The file could not be opened at this time.", "Error Opening File", MessageBoxButtons.OK);
+                return;
+            }
+
+            writer.WriteLine("!Name: " + universe.name);
+            writer.WriteLine("!UniverseType: " + (universe.universeType == UniverseType.Torodial ? "Torodial" : "Finite"));
+            writer.WriteLine("!Generations: " + universe.generations.ToString());
+
+            for (int y = 0; y < universe.GetLength(1); ++y)
+            {
+                var builder = new StringBuilder();
+                for (int x = 0; x < universe.GetLength(0); ++x)
+                    builder.Append(universe[x, y] ? 'O' : '.');
+                writer.WriteLine(builder.ToString());
+            }
+            writer.Close();
+        }
+
+        private void openUniverse()
+        {
+            // Pause a running simulation
+            timer.Enabled = false;
+            playPauseButton.Image = !timer.Enabled ? Properties.Resources.outline_play_arrow_black_24dp : Properties.Resources.aPauseIcon;
+
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                fileNameStr = dlg.FileName;
+                System.IO.StreamReader reader = new System.IO.StreamReader(fileNameStr);
+                int maxWidth = 0;
+                int maxHeight = 0;
+
+                bool nameRead = false;
+
+                // Reset universe generations variable before possibly
+                // reading in a starting generation value
+                universe.generations = 0;
+
+                // Reset universe name in case opened file does not
+                // contain a name
+                universe.name = "";
+
+                // Iterate through the file once to get its size.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then it is a comment
+                    // and should be ignored unless it's a supported option.
+                    if (row.First() == '!')
+                    {
+                        if (nameRead)
+                            continue;
+
+                        var nameEndIndex = row.IndexOf(" ");
+                        if (nameEndIndex == -1)
+                            continue;
+
+                        if (row.Substring(0, nameEndIndex).Equals("!Name:"))
+                        {
+                            universe.name = row.Substring(nameEndIndex + 1);
+                            this.Text = "Game of Life - " + (!String.IsNullOrWhiteSpace(universe.name) ? " " + universe.name : "");
+                            nameInputToolStripTextBox1.Text = universe.name;
+                            nameRead = true;
+                        }
+                        else if (row.Substring(0, nameEndIndex).Equals("!UniverseType:"))
+                        {
+                            string second = row.Substring(nameEndIndex + 1);
+                            Console.WriteLine("Parsed UniverseType: " + second);
+                            universe.universeType = second.Equals("Infinite") ? UniverseType.Torodial : UniverseType.Finite;
+                        }
+                        else if (row.Substring(0, nameEndIndex).Equals("!Generations:"))
+                        {
+                            string second = row.Substring(nameEndIndex + 1);
+                            Console.WriteLine("Parsed Generations: " + second);
+                            universe.generations = int.Parse(second);
+                        }
+                        continue;
+                    }
+
+                    // Check for empty line
+                    if (String.IsNullOrWhiteSpace(row))
+                        continue;
+
+                    // If the row is not a comment then it is a row of cells.
+                    // Increment the maxHeight variable for each row read.
+                    ++maxHeight;
+
+                    // Get the length of the current row string
+                    // and adjust the maxWidth variable if necessary.
+                    if (row.Length > maxWidth)
+                        maxWidth = row.Length;
+                }
+
+                // Reset stream reader to the beginning in preparation
+                // for reading the universe data
+                reader.DiscardBufferedData();
+                reader.BaseStream.Seek(0, System.IO.SeekOrigin.Begin);
+
+                // Resize universe to the read-in width/height
+                universe.Resize(maxWidth, maxHeight);
+
+                // Keep track of current height
+                int y = 0;
+
+                while (!reader.EndOfStream)
+                {
+                    string row = reader.ReadLine();
+                    
+                    // Skip comments and option lines
+                    if (row.First() == '!' || row.First() == '-')
+                        continue;
+                    
+                    for (int x = 0; x < row.Length; ++x)
+                        universe[x, y] = row.Substring(x, 1).Equals("O") || row.Substring(x,1).Equals("*");
+
+                    ++y;
+                }
+
+                reader.Close();
+        
+                // Update panel
+                graphicsPanel1.Invalidate();
+
+                // Update status strip generations
+                toolStripStatusLabelGenerations.Text = "Generations = " + universe.generations.ToString();
+
+                // Update status strip living cells
+                toolStripStatusLabelLivingCells.Text = "Living Cells = " + universe.NumberOfLivingCells().ToString();
+            }
+        }
+
+        /* ----------------------------
+        * View MENU FUNCTIONS
+        * ----------------------------
+        */
+
+        private void toolStripMenuItemViewGrid_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.EnableGridLines = !Properties.Settings.Default.EnableGridLines;
+            toolStripMenuItemViewGrid.Checked = Properties.Settings.Default.EnableGridLines;
+            graphicsPanel1.Invalidate();
+        }
+        private void toolStripMenuItemNeighborCount_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ViewNeighborCount = !Properties.Settings.Default.ViewNeighborCount;
+            toolStripMenuItemNeighborCount.Checked = Properties.Settings.Default.ViewNeighborCount;
+            graphicsPanel1.Invalidate();
+        }
+
+        private void toolStripMenuItemViewHeadsUpDisplay_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ViewHeadsUpDisplay = !Properties.Settings.Default.ViewHeadsUpDisplay;
+            toolStripMenuItemViewHeadsUpDisplay.Checked = Properties.Settings.Default.ViewHeadsUpDisplay;
+            graphicsPanel1.Invalidate();
+        }
+
+        // Helper Functions
+        private void setupMenuToolstrip()
+        {
+            // Setup Universe Menu Toolstrip
+            uiTypeInfinite.Checked = universe.universeType == UniverseType.Torodial;
+            uiTypeFininite.Checked = universe.universeType == UniverseType.Finite;
+            uiXSize.Text = universe.GetLength(0).ToString();
+            uiYSize.Text = universe.GetLength(1).ToString();
+
+            // Setup View Menu Toolstrip
+            toolStripMenuItemViewGrid.Checked = Properties.Settings.Default.EnableGridLines;
+            toolStripMenuItemNeighborCount.Checked = Properties.Settings.Default.ViewNeighborCount;
+            toolStripMenuItemViewHeadsUpDisplay.Checked = Properties.Settings.Default.ViewHeadsUpDisplay;
         }
     }
 }
