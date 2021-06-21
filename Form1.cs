@@ -28,6 +28,9 @@ namespace Game_of_Life
         //Heads up display
         HeadsUpDisplay headsUpDisplay;
 
+        // Border around the graphics panel
+        int border = 10;
+
         public MainWindow()
         {
             headsUpDisplay = new HeadsUpDisplay(this);
@@ -70,6 +73,15 @@ namespace Game_of_Life
             NextGeneration();
         }
 
+        /* ------------------------
+        * ABOUT MENU FUNCTIONS 
+        * -------------------------
+        */
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         /* -------------------------
          * GRAPHICS PANEL FUNCTIONS 
          * -------------------------
@@ -78,12 +90,11 @@ namespace Game_of_Life
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
             graphicsPanel1.BackColor = Properties.Settings.Default.ColorPanelBG;
-            int border = 10;
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
-            float cellWidth = ((float) graphicsPanel1.ClientSize.Width-border) / universe.GetLength(0);
+            float cellWidth = getCellWidth();
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
-            float cellHeight = ((float) graphicsPanel1.ClientSize.Height-border) / universe.GetLength(1);
+            float cellHeight = getCellHeight();
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(Properties.Settings.Default.ColorGridLine, Properties.Settings.Default.GridLineThickness);
@@ -114,8 +125,8 @@ namespace Game_of_Life
                 {
                     // A rectangle to represent each cell in pixels
                     RectangleF cellRect = RectangleF.Empty;
-                    cellRect.X = (x * cellWidth) + (border/2);
-                    cellRect.Y = (y * cellHeight) + (border/2);
+                    cellRect.X = (x * cellWidth);
+                    cellRect.Y = (y * cellHeight);
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
 
@@ -165,8 +176,10 @@ namespace Game_of_Life
                 Brush cellAliveBrush = new SolidBrush(Properties.Settings.Default.ColorCellCountAlive);
                 Brush cellDeadBrush = new SolidBrush(Properties.Settings.Default.ColorCellCountDead);
 
-                // todo - draw strings over grid using the proper font
 
+                // HUD Strings are drawn with ~35 pixels between each other, as declared by incrementing yPos.
+                // An x offset could also be achieved by incrementing xPos in a similar manner. This allows for
+                // easier adjustments without cascading visual issues when a single string needs to be moved.
                 int yPos = 15;
                 int xPos = 15;
                 e.Graphics.DrawString("Generation: " + universe.generations.ToString(), Properties.Settings.Default.FontGen,
@@ -189,18 +202,7 @@ namespace Game_of_Life
                 yPos += 25;
                 e.Graphics.DrawString("Cells Dead: " + ((universe.GetLength(0) * universe.GetLength(1)) - universe.NumberOfLivingCells()).ToString(), Properties.Settings.Default.FontCellsDead,
                     cellDeadBrush, xPos, yPos);
-                //headsUpDisplay.UpdateHUD(
-                //    universe.generations,
-                //    universe.GetLength(0) * universe.GetLength(1),
-                //    universe.universeType == UniverseType.Torodial ? "Torodial" : "Finite",
-                //    universe.name,
-                //    universe.GetLength(0).ToString() + " x " + universe.GetLength(1).ToString(),
-                //    universe.NumberOfLivingCells(),
-                //    (universe.GetLength(0) * universe.GetLength(1)) - universe.NumberOfLivingCells()
-                //);
-            }
-
-            
+            }   
         }
 
         public void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
@@ -209,8 +211,8 @@ namespace Game_of_Life
             if (e.Button == MouseButtons.Left)
             {
                 // Calculate the width and height of each cell in pixels
-                float cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
-                float cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+                float cellWidth = getCellWidth();
+                float cellHeight = getCellHeight();
                 if (cellWidth == 0)
                     cellWidth = 1;
                 if (cellHeight == 0)
@@ -218,17 +220,17 @@ namespace Game_of_Life
 
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
-                int x = e.X / (int)cellWidth;
-                if (x >= universe.GetLength(0))
+                int x = (int)((float)e.X / cellWidth);
+                if (x >= universe.GetLength(0) || x < 0)
                 {
                     System.Diagnostics.Debug.WriteLine("X was greater than universe length: " + x);
                     return;
                 }
                 // CELL Y = MOUSE Y / CELL HEIGHT
-                int y = e.Y / (int)cellHeight;
-                if (y >= universe.GetLength(1))
+                int y = (int)((float)e.Y / cellHeight);
+                if (y >= universe.GetLength(1) || y < 0)
                 {
-                    System.Diagnostics.Debug.WriteLine("Y was greater than universe length: " + y);
+                    System.Diagnostics.Debug.WriteLine("Y was outside universe: " + y);
                     return;
                 }
 
@@ -246,6 +248,16 @@ namespace Game_of_Life
         private void graphicsPanel1_MouseDown(object sender, MouseEventArgs e)
         {
             //System.Diagnostics.Debug.WriteLine("X was greater than universe length: " + x);
+        }
+
+        private float getCellWidth()
+        {
+            return ((float)graphicsPanel1.ClientSize.Width ) / universe.GetLength(0);
+        }
+
+        private float getCellHeight()
+        {
+            return ((float)graphicsPanel1.ClientSize.Height ) / universe.GetLength(1);
         }
 
         /* ----------------------------
