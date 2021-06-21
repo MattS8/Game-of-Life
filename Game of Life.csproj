@@ -73,17 +73,17 @@
     <Compile Include="GridControls.Designer.cs">
       <DependentUpon>GridControls.cs</DependentUpon>
     </Compile>
+    <Compile Include="HeadsUpDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HeadsUpDisplay.Designer.cs">
+      <DependentUpon>HeadsUpDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="PanelColorsControls.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PanelColorsControls.Designer.cs">
       <DependentUpon>PanelColorsControls.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PanelFontsControls.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PanelFontsControls.Designer.cs">
-      <DependentUpon>PanelFontsControls.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,6 +92,13 @@
     </Compile>
     <Compile Include="RandomizationControls.Designer.cs">
       <DependentUpon>RandomizationControls.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ISettingsControl.cs" />
+    <Compile Include="SettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SettingsControl.Designer.cs">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="SpeedSystem.cs" />
     <Compile Include="UniverseNameForm.cs">
@@ -119,11 +126,11 @@
     <EmbeddedResource Include="GridControls.resx">
       <DependentUpon>GridControls.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HeadsUpDisplay.resx">
+      <DependentUpon>HeadsUpDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PanelColorsControls.resx">
       <DependentUpon>PanelColorsControls.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PanelFontsControls.resx">
-      <DependentUpon>PanelFontsControls.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -137,6 +144,9 @@
     </Compile>
     <EmbeddedResource Include="RandomizationControls.resx">
       <DependentUpon>RandomizationControls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsControl.resx">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UniverseNameForm.resx">
       <DependentUpon>UniverseNameForm.cs</DependentUpon>
@@ -189,6 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Settings\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

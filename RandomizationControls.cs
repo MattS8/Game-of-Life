@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Game_of_Life
 {
-    public partial class RandomizationControls : UserControl
+    public partial class RandomizationControls : SettingsControl
     {
         public bool randomizationChanged;
         public RandomizationControls()
@@ -19,6 +19,10 @@ namespace Game_of_Life
             restoreDefaults();
             randomizationChanged = false;
         }
+
+        /** 
+        * Listener Callback Functions 
+        **/
 
         private void cbUniverseSeed_CheckedChanged(object sender, EventArgs e)
         {
@@ -36,7 +40,17 @@ namespace Game_of_Life
             numAlive.Value = 100 - numDead.Value;
         }
 
-        internal void restoreDefaults()
+        private void cbTimeSeed_CheckChanged(object sender, EventArgs e)
+        {
+            cbUniverseSeed.Checked = !cbTimeSeed.Checked;
+            numSeed.Enabled = !cbTimeSeed.Checked;
+        }
+
+        /** 
+         * Settings Abstract Functions
+         **/
+
+        new public void restoreDefaults()
         {
             cbUniverseSeed.Checked = Properties.Settings.Default.UseSeed;
             cbTimeSeed.Checked = !cbUniverseSeed.Checked;
@@ -47,7 +61,7 @@ namespace Game_of_Life
 
         }
 
-        internal void applySettings()
+        new public void applySettings()
         {
             randomizationChanged = false;
             if (Properties.Settings.Default.UseSeed != cbUniverseSeed.Checked)
@@ -62,12 +76,6 @@ namespace Game_of_Life
             }
             Properties.Settings.Default.RandAlive = (int)numAlive.Value;
             Properties.Settings.Default.RandDead = (int)numDead.Value;
-        }
-
-        private void cbTimeSeed_CheckChanged(object sender, EventArgs e)
-        {
-            cbUniverseSeed.Checked = !cbTimeSeed.Checked;
-            numSeed.Enabled = !cbTimeSeed.Checked;
         }
     }
 }

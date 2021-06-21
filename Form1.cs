@@ -25,8 +25,12 @@ namespace Game_of_Life
         // Name of Universe Save File
         String fileNameStr;
 
+        //Heads up display
+        HeadsUpDisplay headsUpDisplay;
+
         public MainWindow()
         {
+            headsUpDisplay = new HeadsUpDisplay(this);
             InitializeComponent();
 
             // Setup the timer
@@ -74,12 +78,12 @@ namespace Game_of_Life
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
             graphicsPanel1.BackColor = Properties.Settings.Default.ColorPanelBG;
-
+            int border = 10;
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
-            float cellWidth = ((float) graphicsPanel1.ClientSize.Width) / universe.GetLength(0);
+            float cellWidth = ((float) graphicsPanel1.ClientSize.Width-border) / universe.GetLength(0);
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
-            float cellHeight = ((float) graphicsPanel1.ClientSize.Height) / universe.GetLength(1);
+            float cellHeight = ((float) graphicsPanel1.ClientSize.Height-border) / universe.GetLength(1);
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(Properties.Settings.Default.ColorGridLine, Properties.Settings.Default.GridLineThickness);
@@ -110,8 +114,8 @@ namespace Game_of_Life
                 {
                     // A rectangle to represent each cell in pixels
                     RectangleF cellRect = RectangleF.Empty;
-                    cellRect.X = x * cellWidth;
-                    cellRect.Y = y * cellHeight;
+                    cellRect.X = (x * cellWidth) + (border/2);
+                    cellRect.Y = (y * cellHeight) + (border/2);
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
 
@@ -149,9 +153,57 @@ namespace Game_of_Life
             n6Brush.Dispose();
             n7Brush.Dispose();
             n8Brush.Dispose();
+
+            // Update the HUD if showing
+            if (Properties.Settings.Default.ViewHeadsUpDisplay)
+            {
+                Brush currentGenBrush = new SolidBrush(Properties.Settings.Default.ColorCurrentGen);
+                Brush cellCountBrush = new SolidBrush(Properties.Settings.Default.ColorCellCount);
+                Brush boundaryTypeBrush = new SolidBrush(Properties.Settings.Default.ColorBoundaryType);
+                Brush uniNameBrush = new SolidBrush(Properties.Settings.Default.ColorUniName);
+                Brush uniSizeBrush = new SolidBrush(Properties.Settings.Default.ColorUniSize);
+                Brush cellAliveBrush = new SolidBrush(Properties.Settings.Default.ColorCellCountAlive);
+                Brush cellDeadBrush = new SolidBrush(Properties.Settings.Default.ColorCellCountDead);
+
+                // todo - draw strings over grid using the proper font
+
+                int yPos = 15;
+                int xPos = 15;
+                e.Graphics.DrawString("Generation: " + universe.generations.ToString(), Properties.Settings.Default.FontGen,
+                    currentGenBrush, xPos, yPos);
+                yPos += 25;
+                e.Graphics.DrawString("Cell Count: " + (universe.GetLength(0)*universe.GetLength(1)).ToString(), Properties.Settings.Default.FontCellCount,
+                    cellCountBrush, xPos, yPos);
+                yPos += 25;
+                e.Graphics.DrawString("Boundary Type: " + (universe.universeType == UniverseType.Torodial ? "Torodial" : "Finite"), Properties.Settings.Default.FontBoundaryType,
+                    boundaryTypeBrush, xPos, yPos);
+                yPos += 25;
+                e.Graphics.DrawString("Universe Name: " + universe.name, Properties.Settings.Default.FontUniName,
+                    uniNameBrush, xPos, yPos);
+                yPos += 25;
+                e.Graphics.DrawString("Universe Size: " + universe.GetLength(0).ToString() + " x " + universe.GetLength(1).ToString(), Properties.Settings.Default.FontUniSize,
+                    uniSizeBrush, xPos, yPos);
+                yPos += 45;
+                e.Graphics.DrawString("Cells Alive: " + universe.NumberOfLivingCells().ToString(), Properties.Settings.Default.FontCellsAlive,
+                    cellAliveBrush, xPos, yPos);
+                yPos += 25;
+                e.Graphics.DrawString("Cells Dead: " + ((universe.GetLength(0) * universe.GetLength(1)) - universe.NumberOfLivingCells()).ToString(), Properties.Settings.Default.FontCellsDead,
+                    cellDeadBrush, xPos, yPos);
+                //headsUpDisplay.UpdateHUD(
+                //    universe.generations,
+                //    universe.GetLength(0) * universe.GetLength(1),
+                //    universe.universeType == UniverseType.Torodial ? "Torodial" : "Finite",
+                //    universe.name,
+                //    universe.GetLength(0).ToString() + " x " + universe.GetLength(1).ToString(),
+                //    universe.NumberOfLivingCells(),
+                //    (universe.GetLength(0) * universe.GetLength(1)) - universe.NumberOfLivingCells()
+                //);
+            }
+
+            
         }
 
-        private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
+        public void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             // If the left mouse button was clicked
             if (e.Button == MouseButtons.Left)
@@ -235,6 +287,7 @@ namespace Game_of_Life
 
         private void size_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Ignore invalid key presses
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
@@ -279,14 +332,16 @@ namespace Game_of_Life
         {
             universe.universeType = UniverseType.Finite;
             uiTypeFininite.Checked = true;
-            uiTypeInfinite.Checked = false;
+            uiTypeTorodial.Checked = false;
+            graphicsPanel1.Invalidate();
         }
 
-        private void uiTypeInfinite_Click(object sender, EventArgs e)
+        private void uiTypeTorodial_Click(object sender, EventArgs e)
         {
             universe.universeType = UniverseType.Torodial;
             uiTypeFininite.Checked = false;
-            uiTypeInfinite.Checked = true;
+            uiTypeTorodial.Checked = true;
+            graphicsPanel1.Invalidate();
         }
 
         private void nameInputToolStripTextBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -324,7 +379,7 @@ namespace Game_of_Life
 
             // Stop simulation
             timer.Enabled = false;
-            playPauseButton.Image = Properties.Resources.aPauseIcon;
+            playPauseButton.Image = Properties.Resources.aPlay;
 
             // Reset the universe
             universe.Reset();
@@ -496,9 +551,6 @@ namespace Game_of_Life
                     // and should be ignored unless it's a supported option.
                     if (row.First() == '!')
                     {
-                        if (nameRead)
-                            continue;
-
                         var nameEndIndex = row.IndexOf(" ");
                         if (nameEndIndex == -1)
                             continue;
@@ -514,7 +566,9 @@ namespace Game_of_Life
                         {
                             string second = row.Substring(nameEndIndex + 1);
                             Console.WriteLine("Parsed UniverseType: " + second);
-                            universe.universeType = second.Equals("Infinite") ? UniverseType.Torodial : UniverseType.Finite;
+                            universe.universeType = second.Equals("Torodial") ? UniverseType.Torodial : UniverseType.Finite;
+                            uiTypeFininite.Checked = universe.universeType == UniverseType.Finite;
+                            uiTypeTorodial.Checked = universe.universeType == UniverseType.Torodial;
                         }
                         else if (row.Substring(0, nameEndIndex).Equals("!Generations:"))
                         {
@@ -574,6 +628,21 @@ namespace Game_of_Life
 
                 // Update status strip living cells
                 toolStripStatusLabelLivingCells.Text = "Living Cells = " + universe.NumberOfLivingCells().ToString();
+
+                // Upate window title
+                this.Text = "Game of Life - " + universe.name;
+
+                // Update the HUD if showing
+                if (Properties.Settings.Default.ViewHeadsUpDisplay)
+                        headsUpDisplay.UpdateHUD(
+                        universe.generations,
+                        universe.GetLength(0) * universe.GetLength(1),
+                        universe.universeType == UniverseType.Torodial ? "Torodial" : "Finite",
+                        universe.name,
+                        universe.GetLength(0).ToString() + " x " + universe.GetLength(1).ToString(),
+                        universe.NumberOfLivingCells(),
+                        (universe.GetLength(0) * universe.GetLength(1)) - universe.NumberOfLivingCells()
+                    );
             }
         }
 
@@ -602,11 +671,10 @@ namespace Game_of_Life
             graphicsPanel1.Invalidate();
         }
 
-        // Helper Functions
         private void setupMenuToolstrip()
         {
             // Setup Universe Menu Toolstrip
-            uiTypeInfinite.Checked = universe.universeType == UniverseType.Torodial;
+            uiTypeTorodial.Checked = universe.universeType == UniverseType.Torodial;
             uiTypeFininite.Checked = universe.universeType == UniverseType.Finite;
             uiXSize.Text = universe.GetLength(0).ToString();
             uiYSize.Text = universe.GetLength(1).ToString();

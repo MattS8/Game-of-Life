@@ -334,5 +334,173 @@ namespace Game_of_Life.Properties {
                 this["ColorBackColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif, 9.75pt, style=Bold")]
+        public global::System.Drawing.Font FontGen {
+            get {
+                return ((global::System.Drawing.Font)(this["FontGen"]));
+            }
+            set {
+                this["FontGen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif, 9.75pt, style=Bold")]
+        public global::System.Drawing.Font FontCellCount {
+            get {
+                return ((global::System.Drawing.Font)(this["FontCellCount"]));
+            }
+            set {
+                this["FontCellCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif, 9.75pt, style=Bold")]
+        public global::System.Drawing.Font FontBoundaryType {
+            get {
+                return ((global::System.Drawing.Font)(this["FontBoundaryType"]));
+            }
+            set {
+                this["FontBoundaryType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif, 9.75pt, style=Bold")]
+        public global::System.Drawing.Font FontUniName {
+            get {
+                return ((global::System.Drawing.Font)(this["FontUniName"]));
+            }
+            set {
+                this["FontUniName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif, 9.75pt, style=Bold")]
+        public global::System.Drawing.Font FontUniSize {
+            get {
+                return ((global::System.Drawing.Font)(this["FontUniSize"]));
+            }
+            set {
+                this["FontUniSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif, 9.75pt, style=Bold")]
+        public global::System.Drawing.Font FontCellsAlive {
+            get {
+                return ((global::System.Drawing.Font)(this["FontCellsAlive"]));
+            }
+            set {
+                this["FontCellsAlive"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Microsoft Sans Serif, 9.75pt, style=Bold")]
+        public global::System.Drawing.Font FontCellsDead {
+            get {
+                return ((global::System.Drawing.Font)(this["FontCellsDead"]));
+            }
+            set {
+                this["FontCellsDead"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("64, 64, 64")]
+        public global::System.Drawing.Color ColorCurrentGen {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorCurrentGen"]));
+            }
+            set {
+                this["ColorCurrentGen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("64, 64, 64")]
+        public global::System.Drawing.Color ColorBoundaryType {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorBoundaryType"]));
+            }
+            set {
+                this["ColorBoundaryType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("64, 64, 64")]
+        public global::System.Drawing.Color ColorUniSize {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorUniSize"]));
+            }
+            set {
+                this["ColorUniSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("64, 64, 64")]
+        public global::System.Drawing.Color ColorUniName {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorUniName"]));
+            }
+            set {
+                this["ColorUniName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("64, 64, 64")]
+        public global::System.Drawing.Color ColorCellCount {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorCellCount"]));
+            }
+            set {
+                this["ColorCellCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("128, 255, 128")]
+        public global::System.Drawing.Color ColorCellCountAlive {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorCellCountAlive"]));
+            }
+            set {
+                this["ColorCellCountAlive"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("255, 128, 128")]
+        public global::System.Drawing.Color ColorCellCountDead {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorCellCountDead"]));
+            }
+            set {
+                this["ColorCellCountDead"] = value;
+            }
+        }
     }
 }

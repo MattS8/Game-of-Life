@@ -35,8 +35,7 @@ namespace Game_of_Life
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Colors");
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Grid");
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Fonts");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Colors");
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Randomization");
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Randomization");
             this.lwProperties = new System.Windows.Forms.ListView();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
@@ -62,14 +61,12 @@ namespace Game_of_Life
             listViewItem1.Group = listViewGroup1;
             listViewItem2.Group = listViewGroup1;
             listViewItem3.Group = listViewGroup1;
-            listViewItem4.Group = listViewGroup2;
-            listViewItem5.Group = listViewGroup3;
+            listViewItem4.Group = listViewGroup3;
             this.lwProperties.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1,
             listViewItem2,
             listViewItem3,
-            listViewItem4,
-            listViewItem5});
+            listViewItem4});
             this.lwProperties.Location = new System.Drawing.Point(12, 12);
             this.lwProperties.Name = "lwProperties";
             this.lwProperties.Size = new System.Drawing.Size(121, 426);
@@ -131,7 +128,7 @@ namespace Game_of_Life
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lwProperties);
             this.Name = "Form2";
-            this.Text = "Properties";
+            this.Text = "Settings";
             this.ResumeLayout(false);
             this.PerformLayout();
 

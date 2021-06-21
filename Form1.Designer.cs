@@ -53,7 +53,7 @@ namespace Game_of_Life
             this.nameInputToolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.typeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uiTypeFininite = new System.Windows.Forms.ToolStripMenuItem();
-            this.uiTypeInfinite = new System.Windows.Forms.ToolStripMenuItem();
+            this.uiTypeTorodial = new System.Windows.Forms.ToolStripMenuItem();
             this.widthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uiXSize = new System.Windows.Forms.ToolStripTextBox();
             this.heightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -176,7 +176,7 @@ namespace Game_of_Life
             // 
             this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
             this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.propertiesToolStripMenuItem.Text = "Properties";
+            this.propertiesToolStripMenuItem.Text = "Settings";
             this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
@@ -204,21 +204,21 @@ namespace Game_of_Life
             // toolStripMenuItemViewGrid
             // 
             this.toolStripMenuItemViewGrid.Name = "toolStripMenuItemViewGrid";
-            this.toolStripMenuItemViewGrid.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemViewGrid.Size = new System.Drawing.Size(166, 22);
             this.toolStripMenuItemViewGrid.Text = "Grid";
             this.toolStripMenuItemViewGrid.Click += new System.EventHandler(this.toolStripMenuItemViewGrid_Click);
             // 
             // toolStripMenuItemNeighborCount
             // 
             this.toolStripMenuItemNeighborCount.Name = "toolStripMenuItemNeighborCount";
-            this.toolStripMenuItemNeighborCount.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemNeighborCount.Size = new System.Drawing.Size(166, 22);
             this.toolStripMenuItemNeighborCount.Text = "Neighbor Count";
             this.toolStripMenuItemNeighborCount.Click += new System.EventHandler(this.toolStripMenuItemNeighborCount_Click);
             // 
             // toolStripMenuItemViewHeadsUpDisplay
             // 
             this.toolStripMenuItemViewHeadsUpDisplay.Name = "toolStripMenuItemViewHeadsUpDisplay";
-            this.toolStripMenuItemViewHeadsUpDisplay.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemViewHeadsUpDisplay.Size = new System.Drawing.Size(166, 22);
             this.toolStripMenuItemViewHeadsUpDisplay.Text = "Heads Up Display";
             this.toolStripMenuItemViewHeadsUpDisplay.Click += new System.EventHandler(this.toolStripMenuItemViewHeadsUpDisplay_Click);
             // 
@@ -240,7 +240,7 @@ namespace Game_of_Life
             this.widthToolStripMenuItem,
             this.heightToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.optionsToolStripMenuItem.Text = "Properties";
             // 
             // nameToolStripMenuItem
@@ -248,7 +248,7 @@ namespace Game_of_Life
             this.nameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nameInputToolStripTextBox1});
             this.nameToolStripMenuItem.Name = "nameToolStripMenuItem";
-            this.nameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nameToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.nameToolStripMenuItem.Text = "&Name";
             // 
             // nameInputToolStripTextBox1
@@ -262,31 +262,31 @@ namespace Game_of_Life
             // 
             this.typeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.uiTypeFininite,
-            this.uiTypeInfinite});
+            this.uiTypeTorodial});
             this.typeToolStripMenuItem.Name = "typeToolStripMenuItem";
-            this.typeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.typeToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.typeToolStripMenuItem.Text = "Type";
             // 
             // uiTypeFininite
             // 
             this.uiTypeFininite.Name = "uiTypeFininite";
-            this.uiTypeFininite.Size = new System.Drawing.Size(180, 22);
+            this.uiTypeFininite.Size = new System.Drawing.Size(116, 22);
             this.uiTypeFininite.Text = "Finite";
             this.uiTypeFininite.Click += new System.EventHandler(this.uiTypeFininite_Click);
             // 
             // uiTypeInfinite
             // 
-            this.uiTypeInfinite.Name = "uiTypeInfinite";
-            this.uiTypeInfinite.Size = new System.Drawing.Size(180, 22);
-            this.uiTypeInfinite.Text = "Torodial";
-            this.uiTypeInfinite.Click += new System.EventHandler(this.uiTypeInfinite_Click);
+            this.uiTypeTorodial.Name = "uiTypeInfinite";
+            this.uiTypeTorodial.Size = new System.Drawing.Size(116, 22);
+            this.uiTypeTorodial.Text = "Torodial";
+            this.uiTypeTorodial.Click += new System.EventHandler(this.uiTypeTorodial_Click);
             // 
             // widthToolStripMenuItem
             // 
             this.widthToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.uiXSize});
             this.widthToolStripMenuItem.Name = "widthToolStripMenuItem";
-            this.widthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.widthToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.widthToolStripMenuItem.Text = "Width";
             this.widthToolStripMenuItem.DropDownOpening += new System.EventHandler(this.widthToolStripMenuItem_DropDownOpening);
             // 
@@ -305,7 +305,7 @@ namespace Game_of_Life
             this.heightToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.uiYSize});
             this.heightToolStripMenuItem.Name = "heightToolStripMenuItem";
-            this.heightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.heightToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.heightToolStripMenuItem.Text = "Height";
             this.heightToolStripMenuItem.DropDownOpening += new System.EventHandler(this.heightToolStripMenuItem_DropDownOpening);
             // 
@@ -322,12 +322,12 @@ namespace Game_of_Life
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(130, 6);
             // 
             // uiUniverseRandomize
             // 
             this.uiUniverseRandomize.Name = "uiUniverseRandomize";
-            this.uiUniverseRandomize.Size = new System.Drawing.Size(180, 22);
+            this.uiUniverseRandomize.Size = new System.Drawing.Size(133, 22);
             this.uiUniverseRandomize.Text = "Randomize";
             this.uiUniverseRandomize.Click += new System.EventHandler(this.uiUniverseRandomize_Click);
             // 
@@ -587,7 +587,7 @@ namespace Game_of_Life
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem typeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uiTypeFininite;
-        private System.Windows.Forms.ToolStripMenuItem uiTypeInfinite;
+        private System.Windows.Forms.ToolStripMenuItem uiTypeTorodial;
         private System.Windows.Forms.ToolStripMenuItem widthToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox uiXSize;
         private System.Windows.Forms.ToolStripMenuItem heightToolStripMenuItem;
