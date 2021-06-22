@@ -122,5 +122,17 @@
     <Setting Name="ColorCellCountDead" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">255, 128, 128</Value>
     </Setting>
+    <Setting Name="UniBoundaryType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Torodial</Value>
+    </Setting>
+    <Setting Name="UniWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="UniHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="UniSimSpeed" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">150</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

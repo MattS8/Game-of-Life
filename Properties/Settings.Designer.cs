@@ -502,5 +502,53 @@ namespace Game_of_Life.Properties {
                 this["ColorCellCountDead"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Torodial")]
+        public string UniBoundaryType {
+            get {
+                return ((string)(this["UniBoundaryType"]));
+            }
+            set {
+                this["UniBoundaryType"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int UniWidth {
+            get {
+                return ((int)(this["UniWidth"]));
+            }
+            set {
+                this["UniWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int UniHeight {
+            get {
+                return ((int)(this["UniHeight"]));
+            }
+            set {
+                this["UniHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("150")]
+        public int UniSimSpeed {
+            get {
+                return ((int)(this["UniSimSpeed"]));
+            }
+            set {
+                this["UniSimSpeed"] = value;
+            }
+        }
     }
 }

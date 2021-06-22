@@ -16,3 +16,7 @@ C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\
 C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.HeadsUpDisplay.resources
 C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.SettingsControl.resources
 C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.PanelColorsControls.resources
+C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.RandomSeedForm.resources
+C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.AboutForm.resources
+C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.SimulationSpeedForm.resources
+C:\Users\matth\OneDrive\Documents\Full Sail University\MO5_PP1\GOL\Game of Life\obj\Debug\Game_of_Life.UniverseControls.resources

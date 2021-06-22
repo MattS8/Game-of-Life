@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FontControls.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -94,13 +100,31 @@
       <DependentUpon>RandomizationControls.cs</DependentUpon>
     </Compile>
     <Compile Include="ISettingsControl.cs" />
+    <Compile Include="RandomSeedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RandomSeedForm.Designer.cs">
+      <DependentUpon>RandomSeedForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SettingsControl.Designer.cs">
       <DependentUpon>SettingsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="SimulationSpeedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SimulationSpeedForm.Designer.cs">
+      <DependentUpon>SimulationSpeedForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SpeedSystem.cs" />
+    <Compile Include="UniverseControls.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UniverseControls.Designer.cs">
+      <DependentUpon>UniverseControls.cs</DependentUpon>
+    </Compile>
     <Compile Include="UniverseNameForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +138,9 @@
     <Compile Include="WindowColorsControls.Designer.cs">
       <DependentUpon>WindowColorsControls.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FontControls.resx">
       <DependentUpon>FontControls.cs</DependentUpon>
     </EmbeddedResource>
@@ -145,8 +172,17 @@
     <EmbeddedResource Include="RandomizationControls.resx">
       <DependentUpon>RandomizationControls.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RandomSeedForm.resx">
+      <DependentUpon>RandomSeedForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SettingsControl.resx">
       <DependentUpon>SettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SimulationSpeedForm.resx">
+      <DependentUpon>SimulationSpeedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UniverseControls.resx">
+      <DependentUpon>UniverseControls.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UniverseNameForm.resx">
       <DependentUpon>UniverseNameForm.cs</DependentUpon>

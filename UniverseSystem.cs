@@ -25,12 +25,12 @@ namespace Game_of_Life
         
         Random rand;
 
-        public UniverseSystem(int width = 30, int height = 30, UniverseType type = UniverseType.Torodial, int initialGenerations = 0)
+        public UniverseSystem()
         {
-            universe = new bool[width, height];
-            nextGen = new bool[width, height];
-            universeType = type;
-            generations = initialGenerations;
+            universe = new bool[Properties.Settings.Default.UniWidth, Properties.Settings.Default.UniHeight];
+            nextGen = new bool[Properties.Settings.Default.UniWidth, Properties.Settings.Default.UniHeight];
+            universeType = Properties.Settings.Default.UniBoundaryType == "Torodial" ? UniverseType.Torodial : UniverseType.Finite;
+            generations = 0;
             numLivingCells = 0;
             numCellsBorn = 0;
             numCellsDied = 0;
@@ -124,14 +124,18 @@ namespace Game_of_Life
         /// </summary>
         public void Reset()
         {
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    universe[x, y] = false;
-                }
-            }
+            universe = new bool[Properties.Settings.Default.UniWidth, Properties.Settings.Default.UniHeight];
+            nextGen = new bool[Properties.Settings.Default.UniWidth, Properties.Settings.Default.UniHeight];
+            universeType = Properties.Settings.Default.UniBoundaryType == "Torodial" ? UniverseType.Torodial : UniverseType.Finite;
+
+            //for (int y = 0; y < universe.GetLength(1); y++)
+            //{
+            //    // Iterate through the universe in the x, left to right
+            //    for (int x = 0; x < universe.GetLength(0); x++)
+            //    {
+            //        universe[x, y] = false;
+            //    }
+            //}
 
             generations = 0;
             numLivingCells = 0;
@@ -241,16 +245,34 @@ namespace Game_of_Life
             rand = Properties.Settings.Default.UseSeed ? new Random((int)Properties.Settings.Default.RandSeed) : new Random(new System.DateTime().Millisecond);
         }
 
-        internal void Randomize()
+        /**
+         * The following 3 functions are used to randomize the universe via different
+         * methods. The user can either specify a certain seed to used one-off.
+         * Alternatively, they can elect to randomize the "default" way. This differs
+         * based on what the user has set up in the settings menu.
+         */ 
+
+        private void Randomize(bool bUseTempSeed, int seed = -1)
         {
+            Random tempRand = bUseTempSeed ? new Random(seed) : rand;
             numLivingCells = 0;
             for (int x = 0; x < GetLength(0); ++x)
                 for (int y = 0; y < GetLength(1); ++y)
                 {
-                    int r = rand.Next(100);
-                    universe[x,y] = r < (Properties.Settings.Default.RandAlive > Properties.Settings.Default.RandDead ? Properties.Settings.Default.RandDead : Properties.Settings.Default.RandAlive);
+                    int r = tempRand.Next(100);
+                    universe[x, y] = r < (Properties.Settings.Default.RandAlive > Properties.Settings.Default.RandDead ? Properties.Settings.Default.RandDead : Properties.Settings.Default.RandAlive);
                     numLivingCells += universe[x, y] ? 1 : 0;
                 }
+        }
+
+        internal void Randomize(int seed)
+        {
+            Randomize(true, seed);
+        }
+
+        internal void Randomize()
+        {
+            Randomize(false);
         }
     }
 

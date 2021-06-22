@@ -30,12 +30,13 @@ namespace Game_of_Life
         private void InitializeComponent()
         {
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Panel Defaults", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Window", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Universe Defaults", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Miscellaneous", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Colors");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Grid");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Fonts");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Randomization");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Fonts");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Grid Options");
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("Universe Options");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("Randomization");
             this.lwProperties = new System.Windows.Forms.ListView();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
@@ -48,8 +49,8 @@ namespace Game_of_Life
             this.lwProperties.FullRowSelect = true;
             listViewGroup1.Header = "Panel Defaults";
             listViewGroup1.Name = "grpPanel";
-            listViewGroup2.Header = "Window";
-            listViewGroup2.Name = "grpWindow";
+            listViewGroup2.Header = "Universe Defaults";
+            listViewGroup2.Name = "grpUniverse";
             listViewGroup3.Header = "Miscellaneous";
             listViewGroup3.Name = "grpApplication";
             this.lwProperties.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
@@ -61,12 +62,14 @@ namespace Game_of_Life
             listViewItem1.Group = listViewGroup1;
             listViewItem2.Group = listViewGroup1;
             listViewItem3.Group = listViewGroup1;
-            listViewItem4.Group = listViewGroup3;
+            listViewItem4.Group = listViewGroup1;
+            listViewItem5.Group = listViewGroup3;
             this.lwProperties.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1,
             listViewItem2,
             listViewItem3,
-            listViewItem4});
+            listViewItem4,
+            listViewItem5});
             this.lwProperties.Location = new System.Drawing.Point(12, 12);
             this.lwProperties.Name = "lwProperties";
             this.lwProperties.Size = new System.Drawing.Size(121, 426);

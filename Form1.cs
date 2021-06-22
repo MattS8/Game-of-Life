@@ -28,9 +28,6 @@ namespace Game_of_Life
         //Heads up display
         HeadsUpDisplay headsUpDisplay;
 
-        // Border around the graphics panel
-        int border = 10;
-
         public MainWindow()
         {
             headsUpDisplay = new HeadsUpDisplay(this);
@@ -42,6 +39,7 @@ namespace Game_of_Life
             timer.Enabled = false; // start timer running
 
             setupMenuToolstrip();
+            panelGraphicsBG.BackColor = Properties.Settings.Default.ColorPanelBG;
         }
 
         /* ----------- 
@@ -79,7 +77,7 @@ namespace Game_of_Life
         */
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            new AboutForm().ShowDialog();
         }
 
         /* -------------------------
@@ -89,7 +87,7 @@ namespace Game_of_Life
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
-            graphicsPanel1.BackColor = Properties.Settings.Default.ColorPanelBG;
+            panelGraphicsBG.BackColor = Properties.Settings.Default.ColorPanelBG;
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
             float cellWidth = getCellWidth();
@@ -127,9 +125,10 @@ namespace Game_of_Life
                     RectangleF cellRect = RectangleF.Empty;
                     cellRect.X = (x * cellWidth);
                     cellRect.Y = (y * cellHeight);
+
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
-
+                     
                     e.Graphics.FillRectangle(universe[x, y] == true ? cellBrush : cellBrushDead, cellRect);
 
                     if (Properties.Settings.Default.ViewNeighborCount)
@@ -150,6 +149,13 @@ namespace Game_of_Life
                     if (Properties.Settings.Default.EnableGridLines)
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
+            }
+
+            // Outline the far borders with a pen
+            if (Properties.Settings.Default.EnableGridLines)
+            {
+                e.Graphics.DrawLine(gridPen, new Point(graphicsPanel1.ClientSize.Width - 1, 0), new Point(graphicsPanel1.ClientSize.Width - 1, graphicsPanel1.ClientSize.Height));
+                e.Graphics.DrawLine(gridPen, new Point(0, graphicsPanel1.ClientSize.Height - 1), new Point(graphicsPanel1.ClientSize.Width, graphicsPanel1.ClientSize.Height - 1));
             }
 
             // Cleaning up pens and brushes
@@ -234,6 +240,8 @@ namespace Game_of_Life
                     return;
                 }
 
+                Console.WriteLine("Click: [" + x + "," + y + "]");
+
                 // Toggle the cell's state
                 universe[x, y] = !universe[x, y];
 
@@ -242,6 +250,10 @@ namespace Game_of_Life
 
                 // Update status strip living cells
                 toolStripStatusLabelLivingCells.Text = "Living Cells = " + universe.NumberOfLivingCells().ToString();
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                contextMenu.Show(graphicsPanel1, new Point(e.X, e.Y));
             }
         }
 
@@ -423,6 +435,7 @@ namespace Game_of_Life
 
             if (DialogResult.OK == propertiesForm.ShowDialog())
             {
+                panelGraphicsBG.BackColor = Properties.Settings.Default.ColorPanelBG;
                 graphicsPanel1.Invalidate();
                 setupMenuToolstrip();
                 if (propertiesForm.randomizationChanged())
@@ -543,8 +556,6 @@ namespace Game_of_Life
                 int maxWidth = 0;
                 int maxHeight = 0;
 
-                bool nameRead = false;
-
                 // Reset universe generations variable before possibly
                 // reading in a starting generation value
                 universe.generations = 0;
@@ -572,7 +583,6 @@ namespace Game_of_Life
                             universe.name = row.Substring(nameEndIndex + 1);
                             this.Text = "Game of Life - " + (!String.IsNullOrWhiteSpace(universe.name) ? " " + universe.name : "");
                             nameInputToolStripTextBox1.Text = universe.name;
-                            nameRead = true;
                         }
                         else if (row.Substring(0, nameEndIndex).Equals("!UniverseType:"))
                         {
@@ -696,5 +706,64 @@ namespace Game_of_Life
             toolStripMenuItemNeighborCount.Checked = Properties.Settings.Default.ViewNeighborCount;
             toolStripMenuItemViewHeadsUpDisplay.Checked = Properties.Settings.Default.ViewHeadsUpDisplay;
         }
+
+        /* ----------------------------
+        * Simulation MENU FUNCTIONS
+        * ----------------------------
+        */
+
+        private void changeSpeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SimulationSpeedForm form = new SimulationSpeedForm(timer.Interval);
+
+            if (DialogResult.OK == form.ShowDialog())
+            {
+                timer.Interval = form.IntervalTime;
+            }
+        }
+
+        /* ----------------------------
+        * Context MENU FUNCTIONS
+        * ----------------------------
+        */
+        private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            getColor("ColorGridLine");
+        }
+        private void contextDeadCellColor_Click(object sender, EventArgs e)
+        {
+            getColor("ColorCellDead");
+        }
+
+        private void contextAliveCellColor_Click(object sender, EventArgs e)
+        {
+            getColor("ColorCellAlive");
+        }
+
+        // helper fucntions
+
+        private void getColor(String settingsStr)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+
+            if (DialogResult.OK == colorDialog.ShowDialog())
+            {
+                Properties.Settings.Default[settingsStr] = colorDialog.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void toolStripMenuItemRandomizeManualSeed_Click(object sender, EventArgs e)
+        {
+            RandomSeedForm form = new RandomSeedForm();
+
+            if (DialogResult.OK == form.ShowDialog())
+            {
+                universe.Randomize(form.Seed);
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+
     }
 }

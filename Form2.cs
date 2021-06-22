@@ -10,6 +10,7 @@ namespace Game_of_Life
         GridControls gridControls = new GridControls();
         RandomizationControls randomizationControls = new RandomizationControls();
         FontControls fontControls = new FontControls();
+        UniverseControls universeControls = new UniverseControls();
 
         public Form2()
         {
@@ -35,15 +36,16 @@ namespace Game_of_Life
                     grpProperties.Controls.Add(panelProperties);
                     break;
                 case 1:
-                    grpProperties.Text = "Grid Options";
-                    grpProperties.Controls.Add(gridControls);
-                    break;
-                case 2:
                     grpProperties.Text = "Fonts";
                     grpProperties.Controls.Add(fontControls);
                     break;
+                case 2:
+                    grpProperties.Text = "Grid Options";
+                    grpProperties.Controls.Add(gridControls);
+                    break;
                 case 3:
-                    grpProperties.Text = "Window Colors";
+                    grpProperties.Text = "Universe Options";
+                    grpProperties.Controls.Add(universeControls);
                     break;
                 case 4:
                     grpProperties.Text = "Randomization Options";
@@ -67,6 +69,7 @@ namespace Game_of_Life
             gridControls.applySettings();
             randomizationControls.applySettings();
             fontControls.applySettings();
+            universeControls.applySettings();
             Properties.Settings.Default.Save();
             DialogResult = DialogResult.OK;
             Close();
@@ -78,6 +81,7 @@ namespace Game_of_Life
             panelProperties.restoreDefaults();
             gridControls.restoreDefaults();
             fontControls.restoreDefaults();
+            universeControls.restoreDefaults();
 
             randomizationControls.restoreDefaults();
         }
