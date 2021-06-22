@@ -39,13 +39,15 @@ namespace Game_of_Life
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(210, 21);
+            this.label1.Padding = new System.Windows.Forms.Padding(20);
+            this.label1.Size = new System.Drawing.Size(800, 450);
             this.label1.TabIndex = 0;
             this.label1.Text = "Matt\'s Game of Life Program";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1
             // 
@@ -62,10 +64,11 @@ namespace Game_of_Life
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(3);
+            this.label2.Padding = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.label2.Size = new System.Drawing.Size(797, 354);
             this.label2.TabIndex = 2;
             this.label2.Text = resources.GetString("label2.Text");
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnOK
             // 
